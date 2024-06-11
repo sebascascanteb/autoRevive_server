@@ -8,7 +8,8 @@ import { products } from "./seeds/products";
 import { reservations } from "./seeds/reservations";
 import { invoices } from "./seeds/invoices";
 import { invoiceDetails } from "./seeds/invoiceDetails";
-import { availabilities } from "./seeds/availabilities";
+import { schedules } from "./seeds/schedules";
+import { status } from "./seeds/status";
 
 const prisma = new PrismaClient();
 
@@ -17,6 +18,10 @@ const main =async () => {
   // Seed ServiceTypes
   await prisma.serviceType.createMany({
     data: serviceTypes,
+  });
+
+  await prisma.status.createMany({
+    data: status,
   });
 
   // Seed ProductCategories
@@ -54,7 +59,7 @@ const main =async () => {
         date: new Date("2024-06-01T10:00:00Z"),
         startTime: new Date("2024-06-01T10:00:00Z"),
         endTime: new Date("2024-06-01T10:30:00Z"),
-        status: "PENDING",
+        statusId: 1,
         answer1: "Yes",
         answer2: "No",
         answer3: "N/A"
@@ -68,7 +73,7 @@ const main =async () => {
         date: new Date("2024-06-02T11:00:00Z"),
         startTime: new Date("2024-06-02T11:00:00Z"),
         endTime: new Date("2024-06-02T12:00:00Z"),
-        status: "CONFIRMED",
+        statusId: 3,
         answer1: "No",
         answer2: "Yes",
         answer3: "N/A"
@@ -82,7 +87,7 @@ const main =async () => {
         date: new Date("2024-06-03T09:00:00Z"),
         startTime: new Date("2024-06-03T09:00:00Z"),
         endTime: new Date("2024-06-03T09:20:00Z"),
-        status: "RESCHEDULED",
+        statusId: 5,
         answer1: "Yes",
         answer2: "Yes",
         answer3: "Yes"
@@ -123,8 +128,8 @@ const main =async () => {
     await prisma.invoiceDetail.create({ data: invoiceDetail });
   }
 
-  // Seed Availabilities
-  await prisma.availability.create({
+  // Seed Schedules
+  await prisma.schedule.create({
     data: {
         branchId: 1,
       availability: "SCHEDULE",
@@ -133,7 +138,7 @@ const main =async () => {
       description: "Regular working hours"
     },
   });
-  await prisma.availability.create({
+  await prisma.schedule.create({
     data: {
         branchId: 2,
       availability: "SCHEDULE",
@@ -142,7 +147,7 @@ const main =async () => {
       description: "Regular working hours"
     },
   });
-  await prisma.availability.create({
+  await prisma.schedule.create({
     data: {
         branchId: 3,
       availability: "BLOCK",

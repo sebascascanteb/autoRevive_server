@@ -9,6 +9,8 @@ const chalk = require("chalk");
 const prism = new PrismaClient();
 //---Archivos de rutas---
 const serviceRouter= require("./routes/serviceRoutes")
+const productCategoryRouter= require("./routes/productCategoryRoutes")
+const productRouter= require("./routes/productRoutes")
 
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
@@ -27,6 +29,8 @@ app.use(
 );
 //---- Definir rutas ----
 app.use("/service/",serviceRouter)
+app.use("/productCategory/",productCategoryRouter)
+app.use("/product/",productRouter)
 
 // Servidor
 app.listen(port, () => {

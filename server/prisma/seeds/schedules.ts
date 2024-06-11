@@ -1,6 +1,6 @@
 import { AvailabilityType } from "@prisma/client";
 
-export const availabilities = [
+export const schedules = [
     {//1
       branchId: 1,
       availability: AvailabilityType.SCHEDULE,

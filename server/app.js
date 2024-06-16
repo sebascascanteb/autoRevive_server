@@ -11,6 +11,8 @@ const prism = new PrismaClient();
 const serviceRouter= require("./routes/serviceRoutes")
 const productCategoryRouter= require("./routes/productCategoryRoutes")
 const productRouter= require("./routes/productRoutes")
+const serviceTypeRouter= require("./routes/serviceTypeRoutes")
+const invoiceRouter= require("./routes/invoiceRoutes")
 
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
@@ -31,6 +33,8 @@ app.use(
 app.use("/service/",serviceRouter)
 app.use("/productCategory/",productCategoryRouter)
 app.use("/product/",productRouter)
+app.use("/serviceType/",serviceTypeRouter)
+app.use("/invoice/",invoiceRouter)
 
 // Servidor
 app.listen(port, () => {

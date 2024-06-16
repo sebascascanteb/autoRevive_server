@@ -7,5 +7,6 @@ router.get('/', invoiceController.get);
 router.get('/:id', invoiceController.getById); 
 router.post('/', invoiceController.create);
 router.get('/listByManager/:id', invoiceController.listInvoicesByManager);
+router.get('/getByIdClient/:id', invoiceController.getByIdClient);
 
 module.exports = router;

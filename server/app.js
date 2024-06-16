@@ -13,6 +13,7 @@ const productCategoryRouter= require("./routes/productCategoryRoutes")
 const productRouter= require("./routes/productRoutes")
 const serviceTypeRouter= require("./routes/serviceTypeRoutes")
 const invoiceRouter= require("./routes/invoiceRoutes")
+const reservationRouter= require("./routes/reservationRoutes")
 
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
@@ -35,6 +36,7 @@ app.use("/productCategory/",productCategoryRouter)
 app.use("/product/",productRouter)
 app.use("/serviceType/",serviceTypeRouter)
 app.use("/invoice/",invoiceRouter)
+app.use("/reservation/",reservationRouter)
 
 // Servidor
 app.listen(port, () => {

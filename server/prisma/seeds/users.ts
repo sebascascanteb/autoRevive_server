@@ -15,7 +15,7 @@ export const users = [
     name: "Ana Martinez",
     email: "ana.martinez@tallermecanico.com",
     password: "$2b$10$1BaQqXuZYNLDAC42PY5fN.ufSOKjApmjkaZrQUYf7ms71PaS1mASO",
-    role: Role.ADMIN,
+    role: Role.MANAGER,
     phone: "555-234-5678",
     exactAddress: "456 Admin St, Mechanic City",
     birthDate: new Date("1985-02-02"),

@@ -8,6 +8,13 @@ const app = express();
 const chalk = require("chalk");
 const prism = new PrismaClient();
 //---Archivos de rutas---
+const serviceRouter= require("./routes/serviceRoutes")
+const productCategoryRouter= require("./routes/productCategoryRoutes")
+const productRouter= require("./routes/productRoutes")
+const serviceTypeRouter= require("./routes/serviceTypeRoutes")
+const invoiceRouter= require("./routes/invoiceRoutes")
+const reservationRouter= require("./routes/reservationRoutes")
+
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
 // Puero que escucha por defecto 300 o definido .env
@@ -24,6 +31,13 @@ app.use(
   })
 );
 //---- Definir rutas ----
+app.use("/service/",serviceRouter)
+app.use("/productCategory/",productCategoryRouter)
+app.use("/product/",productRouter)
+app.use("/serviceType/",serviceTypeRouter)
+app.use("/invoice/",invoiceRouter)
+app.use("/reservation/",reservationRouter)
+
 // Servidor
 app.listen(port, () => {
   console.log(chalk.blue(`http://localhost:${port}`));

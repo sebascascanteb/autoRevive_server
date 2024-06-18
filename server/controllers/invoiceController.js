@@ -46,12 +46,9 @@ module.exports.getByIdClient = async (req, res, next) => {
         user: true,
         invoiceDetails: {
           include: {
-            product: {
-              select: { name: true },
-            },
-            service: {
-              select: { name: true },
-            },
+            product: true,
+
+            service: true,
           },
         },
       },
@@ -95,12 +92,9 @@ module.exports.listInvoicesByManager = async (req, res, next) => {
         user: true,
         invoiceDetails: {
           include: {
-            product: {
-              select: { name: true },
-            },
-            service: {
-              select: { name: true },
-            },
+            product: true,
+
+            service: true,
           },
         },
       },

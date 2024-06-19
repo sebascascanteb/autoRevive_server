@@ -22,7 +22,15 @@ module.exports.getById = async (req, res, next) => {
     const obj = await prisma.invoice.findFirst({
       where: { id: id },
       include: {
-        invoiceDetails: true,
+        branch: true,
+        user: true,
+        invoiceDetails: {
+          include: {
+            product: true,
+
+            service: true,
+          },
+        },
       },
     });
     res.json(obj);

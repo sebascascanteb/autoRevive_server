@@ -26,7 +26,7 @@ export const reservations = [
     },
     {//3
       clientId: 3,
-      branchId: 3,
+      branchId: 2,
       serviceId: 3,
       date: new Date("2024-06-03T09:00:00Z"),
       startTime: new Date("2024-06-03T09:00:00Z"),

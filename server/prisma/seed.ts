@@ -56,7 +56,7 @@ const main =async () => {
         clientId: 3,
         branchId: 1,
         serviceId: 1,
-        date: new Date("2024-06-01T10:00:00Z"),
+        date: new Date("2024-06-01T08:00:00Z"),
         startTime: new Date("2024-06-01T10:00:00Z"),
         endTime: new Date("2024-06-01T10:30:00Z"),
         statusId: 1,
@@ -67,13 +67,44 @@ const main =async () => {
   });
   await prisma.reservation.create({
     data: {
+        clientId: 4,
+        branchId: 1,
+        serviceId: 2,
+        date: new Date("2024-06-03T08:00:00Z"),
+        startTime: new Date("2024-06-03T10:00:00Z"),
+        endTime: new Date("2024-06-03T10:30:00Z"),
+        statusId: 2,
+        answer1: "Yes",
+        answer2: "No",
+        answer3: "N/A"
+    },
+  });
+  await prisma.reservation.create({
+    data: {
+        clientId: 2,
+        branchId: 1,
+        serviceId: 3,
+        date: new Date("2024-06-07T08:00:00Z"),
+        startTime: new Date("2024-06-07T10:00:00Z"),
+        endTime: new Date("2024-06-07T10:30:00Z"),
+        statusId: 4,
+        answer1: "Yes",
+        answer2: "No",
+        answer3: "N/A"
+    },
+  });
+
+
+
+  await prisma.reservation.create({
+    data: {
         clientId: 3,
         branchId: 2,
-        serviceId: 2,
-        date: new Date("2024-06-02T11:00:00Z"),
+        serviceId: 1,
+        date: new Date("2024-06-02T10:00:00Z"),
         startTime: new Date("2024-06-02T11:00:00Z"),
         endTime: new Date("2024-06-02T12:00:00Z"),
-        statusId: 3,
+        statusId: 6,
         answer1: "No",
         answer2: "Yes",
         answer3: "N/A"
@@ -81,13 +112,70 @@ const main =async () => {
   });
   await prisma.reservation.create({
     data: {
+        clientId: 4,
+        branchId: 2,
+        serviceId: 2,
+        date: new Date("2024-06-03T07:00:00Z"),
+        startTime: new Date("2024-06-03T09:00:00Z"),
+        endTime: new Date("2024-06-03T09:20:00Z"),
+        statusId: 3,
+        answer1: "Yes",
+        answer2: "Yes",
+        answer3: "Yes"
+    },
+  });
+  await prisma.reservation.create({
+    data: {
         clientId: 3,
+        branchId: 2,
+        serviceId: 3,
+        date: new Date(Date.UTC(2024, 4, 1, 8, 0, 0)), // 1 de junio de 2024 a las 08:00 UTC
+        startTime: new Date(Date.UTC(2024, 5, 1, 10, 0, 0)), // 1 de junio de 2024 a las 10:00 UTC
+        endTime: new Date(Date.UTC(2024, 5, 1, 11, 0, 0)), 
+        statusId: 5,
+        answer1: "Yes",
+        answer2: "Yes",
+        answer3: "Yes"
+    },
+  });
+
+
+
+  await prisma.reservation.create({
+    data: {
+        clientId: 4,
         branchId: 3,
         serviceId: 3,
-        date: new Date("2024-06-03T09:00:00Z"),
+        date: new Date("2024-06-03T05:00:00Z"),
         startTime: new Date("2024-06-03T09:00:00Z"),
         endTime: new Date("2024-06-03T09:20:00Z"),
         statusId: 5,
+        answer1: "Yes",
+        answer2: "Yes",
+        answer3: "Yes"
+    },
+  });  await prisma.reservation.create({
+    data: {
+        clientId: 3,
+        branchId: 3,
+        serviceId: 2,
+        date: new Date("2024-06-06T05:00:00Z"),
+        startTime: new Date("2024-06-06T09:00:00Z"),
+        endTime: new Date("2024-06-06T09:20:00Z"),
+        statusId: 2,
+        answer1: "Yes",
+        answer2: "Yes",
+        answer3: "Yes"
+    },
+  });  await prisma.reservation.create({
+    data: {
+        clientId: 4,
+        branchId: 3,
+        serviceId: 1,
+        date: new Date("2024-06-01T05:00:00Z"),
+        startTime: new Date("2024-06-01T09:00:00Z"),
+        endTime: new Date("2024-06-01T09:20:00Z"),
+        statusId: 1,
         answer1: "Yes",
         answer2: "Yes",
         answer3: "Yes"

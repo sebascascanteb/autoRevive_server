@@ -35,6 +35,13 @@ export const invoiceDetails = [
       date: new Date("2024-06-03T14:30:00Z"),
       quantity: 1,
       subtotal: 19.99
+    },
+     {//3
+      invoiceId: 3,
+      productId: 3,
+      date: new Date("2024-06-03T14:30:00Z"),
+      quantity: 2,
+      subtotal: 39.98
     }
   ];
   

@@ -20,7 +20,7 @@ export const invoices = [
       userId: 3,
       branchId: 2,
       date: new Date("2024-06-03T14:00:00Z"),
-      total: 19.99,
+      total: 59.97,
       canceled: Canceled.YES
     }
   ];

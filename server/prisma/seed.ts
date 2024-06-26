@@ -54,7 +54,7 @@ const main =async () => {
   await prisma.reservation.create({
     data: {
         clientId: 3,
-        branchId: 1,
+        branchId: 2,
         serviceId: 1,
         date: new Date("2024-06-01T08:00:00Z"),
         startTime: new Date("2024-06-01T10:00:00Z"),
@@ -68,7 +68,7 @@ const main =async () => {
   await prisma.reservation.create({
     data: {
         clientId: 4,
-        branchId: 1,
+        branchId: 2,
         serviceId: 2,
         date: new Date("2024-06-03T08:00:00Z"),
         startTime: new Date("2024-06-03T10:00:00Z"),
@@ -81,8 +81,8 @@ const main =async () => {
   });
   await prisma.reservation.create({
     data: {
-        clientId: 2,
-        branchId: 1,
+        clientId: 4,
+        branchId: 2,
         serviceId: 3,
         date: new Date("2024-06-07T08:00:00Z"),
         startTime: new Date("2024-06-07T10:00:00Z"),
@@ -194,7 +194,7 @@ const main =async () => {
   });
   await prisma.invoice.create({
     data: {
-        userId: 3,
+        userId: 4,
         branchId: 2,
         date: new Date("2024-06-02T13:00:00Z"),
         total: 190.97,
@@ -209,6 +209,26 @@ const main =async () => {
       total: 59.97,
       canceled: "YES"
     },
+  });
+  await prisma.invoice.create({
+    data: {
+      userId: 3,
+      branchId: 2,
+      date: new Date("2024-06-07T18:00:00Z"),
+      total: 120,
+      canceled: "NO"
+    }
+  });
+  
+  // Creación de factura con userId 4 y branchId 2
+  await prisma.invoice.create({
+    data: {
+      userId: 4,
+      branchId: 2,
+      date: new Date("2024-06-08T19:00:00Z"),
+      total: 88,
+      canceled: "YES"
+    }
   });
 
   // Seed InvoiceDetails
@@ -241,6 +261,15 @@ const main =async () => {
       availability: "BLOCK",
       startDate: new Date("2024-06-03T08:00:00Z"),
       endDate: new Date("2024-06-03T17:00:00Z"),
+      description: "Maintenance day"
+    },
+  });
+  await prisma.schedule.create({
+    data: {
+        branchId: 2,
+      availability: "BLOCK",
+      startDate: new Date("2024-06-20T08:00:00Z"),
+      endDate: new Date("2024-06-20T17:00:00Z"),
       description: "Maintenance day"
     },
   });

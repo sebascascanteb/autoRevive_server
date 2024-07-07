@@ -29,6 +29,15 @@ export const users = [
     phone: "555-345-6789",
     exactAddress: "789 Client St, Mechanic Town",
     birthDate: new Date("1990-03-03")
+  },
+  {//4
+    name: "Andrey Ramirez",
+    email: "andrey.ramirez@tallermecanico.com",
+    password: "$2b$10$1BaQqXuZYNLDAC42PY5fN.ufSOKjApmjkaZrQUYf7ms71PaS1mASO",
+    role: Role.CLIENT,
+    phone: "555-346-6788",
+    exactAddress: "Greacia, Alajuela",
+    birthDate: new Date("2003-03-03")
   }
 ];
 

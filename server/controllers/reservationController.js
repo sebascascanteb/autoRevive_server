@@ -16,20 +16,24 @@ module.exports.get = async (req, res, next) => {
 
 // Obtener por Id
 //localhost:3000/reservation/3
-//module.exports.getById = async (req, res, next) => {
-  //try {
-    //let id = parseInt(req.params.id);
-    //const obj = await prisma.reservation.findFirst({
-     // where: { id: id },
-     // include: {
-  //      reservationDetails: true,
-      //},
-    //});
-   // res.json(obj);
-  //} catch (error) {
-    //next(error);
-  //}
-//};
+module.exports.getById = async (req, res, next) => {
+  try {
+    let id = parseInt(req.params.id);
+    const obj = await prisma.reservation.findFirst({
+      where: { id: id },
+      include: {
+        client: true, 
+        service: true, 
+        branch: true,  
+        status: true  
+
+      }
+    });
+    res.json(obj);
+  } catch (error) {
+    next(error);
+  }
+};
 
 //localhost:3000/reservation/getByIdClient/2
 module.exports.getByIdClient = async (req, res, next) => {
@@ -41,9 +45,11 @@ module.exports.getByIdClient = async (req, res, next) => {
       where: { clientId },
       orderBy: { date: "desc" },
       include: {
-        client: true, // Incluye todos los campos del cliente
-        service: true, // Incluye todos los campos del servicio
-        branch: true  // Incluye todos los campos de la branch
+        client: true, 
+        service: true, 
+        branch: true,  
+        status: true  
+
       }
     });
 
@@ -80,7 +86,8 @@ module.exports.listReservationsByManager = async (req, res, next) => {
       include: {
         client: true, // Incluye todos los campos del cliente
         service: true, // Incluye todos los campos del servicio
-        branch: true  // Incluye todos los campos de la branch
+        branch: true,  // Incluye todos los campos de la branch
+        status: true  // Incluye todos los campos de la branch
       }
     });
 

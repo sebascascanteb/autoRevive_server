@@ -1,12 +1,12 @@
-const { PrismaClient } = require("@prisma/client");
-const { connect } = require("http2");
+const { PrismaClient } = require('@prisma/client');
+const { connect } = require('http2');
 const prisma = new PrismaClient();
 
 // Obtener listado
 module.exports.get = async (req, res, next) => {
   try {
     const listado = await prisma.invoice.findMany({
-      orderBy: { date: "asc" },
+      orderBy: { date: 'asc' },
     });
     res.json(listado);
   } catch (error) {
@@ -48,7 +48,7 @@ module.exports.getByIdClient = async (req, res, next) => {
     // Obtener las facturas de la branch asociada al manager
     const invoices = await prisma.invoice.findMany({
       where: { userId },
-      orderBy: { date: "desc" },
+      orderBy: { date: 'desc' },
       include: {
         branch: true,
         user: true,
@@ -83,10 +83,10 @@ module.exports.listInvoicesByManager = async (req, res, next) => {
       },
     });
 
-    if (!user || user.role !== "MANAGER") {
+    if (!user || user.role !== 'MANAGER') {
       return res
         .status(403)
-        .json({ error: "User is not a manager or does not exist" });
+        .json({ error: 'User is not a manager or does not exist' });
     }
 
     const branchId = user.branchId;
@@ -94,7 +94,7 @@ module.exports.listInvoicesByManager = async (req, res, next) => {
     // Obtener las facturas de la branch asociada al manager
     const invoices = await prisma.invoice.findMany({
       where: { branchId },
-      orderBy: { date: "desc" },
+      orderBy: { date: 'desc' },
       include: {
         branch: true,
         user: true,
@@ -127,6 +127,26 @@ module.exports.create = async (req, res, next) => {
       },
     });
     res.json(newinvoice);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Actualizar
+module.exports.update = async (req, res, next) => {
+  try {
+    let body = req.body;
+    let id = parseInt(req.params.id);
+    const invoice = await prisma.invoice.update({
+      where: { id: id },
+      data: {
+        userId: body.userId,
+        branchId: body.branchId,
+        date: body.date,
+        total: body.total,
+      },
+    });
+    res.json(invoice);
   } catch (error) {
     next(error);
   }

@@ -46,7 +46,9 @@ module.exports.create = async (req, res, next) => {
         priceRate: body.priceRate,
         serviceTime: body.serviceTime,
         warranty: body.warranty,
-        serviceTypeId: body.serviceTypeId
+        serviceTypeId: body.serviceTypeId,
+        imageUrl: body.imageUrl,
+
       },
     });
     res.json(newservice);
@@ -59,11 +61,11 @@ module.exports.create = async (req, res, next) => {
 module.exports.update = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    const { name, description, priceRate, serviceTime, warranty, serviceTypeId } =
+    const { name, description, priceRate, serviceTime, warranty, serviceTypeId, imageUrl } =
       req.body;
     const updatedservice = await prisma.service.update({
       where: { id },
-      data: { name, description, priceRate, serviceTime, warranty, serviceTypeId },
+      data: { name, description, priceRate, serviceTime, warranty, serviceTypeId, imageUrl },
     });
     res.json(updatedservice);
 
@@ -81,7 +83,8 @@ module.exports.update = async (req, res, next) => {
         priceRate: body.priceRate,
         serviceTime: body.serviceTime,
         warranty: body.warranty,
-        serviceTypeId: body.serviceTypeId
+        serviceTypeId: body.serviceTypeId,
+        imageUrl: body.imageUrl
       },
     });
     res.json(updateservice);

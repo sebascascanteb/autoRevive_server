@@ -14,6 +14,22 @@ module.exports.get = async (req, res, next) => {
   }
 };
 
+
+
+// Obtener por branch
+//localhost:3000/schedule/3
+module.exports.getByBranch = async (req, res, next) => {
+  try {
+    let id = parseInt(req.params.id);
+    const obj = await prisma.schedule.findMany({
+      where: { branchId: id },
+    });
+    res.json(obj);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Obtener por Id
 //localhost:3000/schedule/3
 module.exports.getById = async (req, res, next) => {
@@ -31,13 +47,17 @@ module.exports.getById = async (req, res, next) => {
 // Crear
 module.exports.create = async (req, res, next) => {
   try {
+
+    
+
     let body = req.body;
     const obj = await prisma.schedule.create({
       data: {
         branchId: body.branchId,
-        startDate: body.startDate,
-        endDate: body.endDate,
+        startDate: new Date(body.startDate),
+        endDate: new Date( body.endDate),
         description: body.description,
+        availability: body.availability // Aquí pasas el valor como enum
       },
     });
     res.json(obj);

@@ -5,6 +5,8 @@ const scheduleController = require('../controllers/scheduleController');
 // Rutas
 router.get('/', scheduleController.get);
 router.get('/:id', scheduleController.getById);
+router.get('/getByBranch/:id', scheduleController.getByBranch);
+
 router.post('/', scheduleController.create);
 router.put('/:id', scheduleController.update);
 router.delete('/:id', scheduleController.delete);

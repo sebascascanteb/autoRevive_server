@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const invoiceDetail = require('../controllers/InvoiceDetailController');
+const invoiceDetailController = require('../controllers/InvoiceDetailController');
 
 // Rutas
 router.get('/', invoiceDetailController.get);

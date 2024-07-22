@@ -6,8 +6,20 @@ const prisma = new PrismaClient();
 module.exports.get = async (req, res, next) => {
   try {
     const listado = await prisma.invoice.findMany({
-      orderBy: { date: 'asc' },
+      orderBy: { date: 'desc' },
+      include: {
+        branch: true,
+        user: true,
+        invoiceDetails: {
+          include: {
+            product: true,
+
+            service: true,
+          },
+        },
+      },
     });
+
     res.json(listado);
   } catch (error) {
     next(error);

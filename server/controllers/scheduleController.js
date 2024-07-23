@@ -77,8 +77,8 @@ module.exports.update = async (req, res, next) => {
       where: { id },
       data: {
         branchId: body.branchId,
-        startDate: body.startDate,
-        endDate: body.endDate,
+        startDate:  new Date(body.startDate),
+        endDate:  new Date(body.endDate),
         description: body.description,
         availability: body.availability 
       },

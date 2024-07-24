@@ -7,6 +7,13 @@ module.exports.get = async (req, res, next) => {
   try {
     const listado = await prisma.service.findMany({
       orderBy: { name: "asc" },
+      include: {
+        serviceType: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
     res.json(listado);
   } catch (error) {

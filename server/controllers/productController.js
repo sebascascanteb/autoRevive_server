@@ -7,6 +7,9 @@ module.exports.get = async (req, res, next) => {
   try {
     const listado = await prisma.product.findMany({
       orderBy: { name: "asc" },
+      include: {
+        category: true
+      },
     });
     res.json(listado);
   } catch (error) {
@@ -22,11 +25,7 @@ module.exports.getById = async (req, res, next) => {
     const obj = await prisma.product.findFirst({
       where: { id: id },
       include: {
-        category: {
-          select: {
-            name: true,
-          },
-        },
+        category: true
       },
     });
     res.json(obj);
@@ -47,6 +46,7 @@ module.exports.create = async (req, res, next) => {
         warranty: body.warranty,
         compatibility: body.compatibility,
         categoryId: body.categoryId,
+        imageUrl: body.imageUrl
       },
     });
     res.json(newProduct);
@@ -59,11 +59,11 @@ module.exports.create = async (req, res, next) => {
 module.exports.update = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    const { name, description, price, warranty, compatibility, categoryId } =
+    const { name, description, price, warranty, compatibility, categoryId, imageUrl } =
       req.body;
     const updatedProduct = await prisma.product.update({
       where: { id },
-      data: { name, description, price, warranty, compatibility, categoryId },
+      data: { name, description, price, warranty, compatibility, categoryId, imageUrl },
     });
     res.json(updatedProduct);
 
@@ -82,6 +82,8 @@ module.exports.update = async (req, res, next) => {
         warranty: body.warranty,
         compatibility: body.compatibility,
         categoryId: body.categoryId,
+        imageUrl: body.imageUrl
+
       },
     });
     res.json(updateProduct);

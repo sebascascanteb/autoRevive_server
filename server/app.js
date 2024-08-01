@@ -7,6 +7,7 @@ const logger = require('morgan');
 const app = express();
 const chalk = require('chalk');
 const prism = new PrismaClient();
+const cronService = require('./services/cronService');
 //---Archivos de rutas---
 const serviceRouter = require('./routes/serviceRoutes');
 const productCategoryRouter = require('./routes/productCategoryRoutes');

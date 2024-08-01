@@ -7,6 +7,42 @@ module.exports.get = async (req, res, next) => {
   try {
     const listado = await prisma.user.findMany({
       orderBy: { name: 'asc' },
+      include: {
+        branch: true
+      },
+    });
+    res.json(listado);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+module.exports.getNotBranchAssociate = async (req, res, next) => {
+  try {
+    const listado = await prisma.user.findMany({
+      orderBy: { name: 'asc' },
+      where: { branchId: null },
+      include: {
+        branch: true
+      },
+    });
+    res.json(listado);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.getByBranch = async (req, res, next) => {
+  try {
+    let idBranch = parseInt(req.params.id);
+
+    const listado = await prisma.user.findMany({
+      orderBy: { name: 'asc' },
+      where: { branchId: idBranch },
+      include: {
+        branch: true
+      },
     });
     res.json(listado);
   } catch (error) {

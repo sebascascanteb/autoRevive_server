@@ -39,6 +39,9 @@ module.exports.getById = async (req, res, next) => {
     let id = parseInt(req.params.id);
     const obj = await prisma.schedule.findFirst({
       where: { id: id },
+      include: {
+        branch: true
+      },
     });
     res.json(obj);
   } catch (error) {

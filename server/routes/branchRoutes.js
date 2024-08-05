@@ -3,6 +3,8 @@ const router = express.Router();
 const branchController = require('../controllers/branchController');
 
 // Rutas
+// router.get('/',auth.grantRole(["ADMIN"]),branchController.get)
+
 router.get('/', branchController.get);
 router.get('/:id', branchController.getById);
 router.post('/', branchController.create);

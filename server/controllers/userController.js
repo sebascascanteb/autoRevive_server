@@ -1,6 +1,71 @@
 const { PrismaClient } = require('@prisma/client');
 const { connect } = require('http2');
 const prisma = new PrismaClient();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const { response } = require('express');
+
+//Register user
+module.exports.register = async (req, res, next) => {
+  const userData = req.body;
+  userData.birthDate = new Date(userData.birthDate);
+  let salt = await bcrypt.genSalt(10);
+  let hashedPassword = await bcrypt.hashSync(userData.password, salt);
+  const user = await prisma.user.create({
+    data: {
+      name: userData.name,
+      phone: userData.phone.toString(),
+      email: userData.email,
+      exactAddress: userData.exactAddress,
+      birthDate: userData.birthDate,
+      password: hashedPassword,
+    },
+  });
+  res.json(user);
+  response.status(200).json({
+    status: true,
+    message: 'User created successfully',
+    data: user,
+  });
+};
+
+//Login user
+
+module.exports.login = async (req, res, next) => {
+  let userReq = req.body;
+  const user = await prisma.user.findUnique({
+    where: {
+      email: userReq.email,
+    },
+  });
+  if (!user) {
+    return res.status(400).json({
+      status: false,
+      message: 'User not found',
+    });
+  }
+  const validPassword = await bcrypt.compare(userReq.password, user.password);
+  if (!validPassword) {
+    return res.status(400).json({
+      status: false,
+      message: 'Invalid password',
+    });
+  } else {
+    const payload = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    };
+    const token = jwt.sign(payload, process.env.SECRET_KEY, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+    return res.status(200).json({
+      status: true,
+      message: 'User logged in successfully',
+      token: token,
+    });
+  }
+};
 
 // Obtener listado
 module.exports.get = async (req, res, next) => {
@@ -8,7 +73,7 @@ module.exports.get = async (req, res, next) => {
     const listado = await prisma.user.findMany({
       orderBy: { name: 'asc' },
       include: {
-        branch: true
+        branch: true,
       },
     });
     res.json(listado);
@@ -17,14 +82,13 @@ module.exports.get = async (req, res, next) => {
   }
 };
 
-
 module.exports.getNotBranchAssociate = async (req, res, next) => {
   try {
     const listado = await prisma.user.findMany({
       orderBy: { name: 'asc' },
       where: { branchId: null },
       include: {
-        branch: true
+        branch: true,
       },
     });
     res.json(listado);
@@ -41,7 +105,7 @@ module.exports.getByBranch = async (req, res, next) => {
       orderBy: { name: 'asc' },
       where: { branchId: idBranch },
       include: {
-        branch: true
+        branch: true,
       },
     });
     res.json(listado);

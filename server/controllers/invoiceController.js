@@ -135,7 +135,7 @@ module.exports.create = async (req, res, next) => {
         userId: body.userId,
         branchId: body.branchId,
         date: body.date,
-        total: body.total,
+        total: body.total * 0.13,
       },
     });
     res.json(newinvoice);

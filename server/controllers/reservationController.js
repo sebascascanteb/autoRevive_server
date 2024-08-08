@@ -59,6 +59,29 @@ module.exports.getByIdClient = async (req, res, next) => {
   }
 };
 
+module.exports.getByBranch = async (req, res, next) => {
+  try {
+    const branchId = parseInt(req.params.id);
+
+    // Obtener las facturas de la branch asociada al manager
+    const reservations = await prisma.reservation.findMany({
+      where: { branchId :  branchId},
+      orderBy: { date: "desc" },
+      include: {
+        client: true, 
+        service: true, 
+        branch: true,  
+        status: true  
+
+      }
+    });
+
+    res.json(reservations);
+  } catch (error) {
+    next(error);
+  }
+};
+
 //localhost:3000/reservation/listreservationsByManager/2
 module.exports.listReservationsByManager = async (req, res, next) => {
   try {
@@ -106,9 +129,9 @@ module.exports.create = async (req, res, next) => {
         clientId: body.clientId,
         branchId: body.branchId,
         serviceId: body.serviceId,
-        date: body.date,
-        startTime: body.startTime,
-        endTime: body.endTime,
+        date: new Date(body.date),
+        startTime: new Date(body.startTime),
+        endTime: new Date(body.endTime),
         statusId: body.statusId,
         answer1: body.answer1,
         answer2: body.answer2,
@@ -117,6 +140,34 @@ module.exports.create = async (req, res, next) => {
       },
     });
     res.json(newreservation);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+module.exports.update = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    let body = req.body;
+    const obj = await prisma.reservation.update({
+      where: { id },
+      data: {
+        clientId: body.clientId,
+        branchId: body.branchId,
+        serviceId: body.serviceId,
+        date: new Date(body.date),
+        startTime: new Date(body.startTime),
+        endTime: new Date(body.endTime),
+        statusId: body.statusId,
+        answer1: body.answer1,
+        answer2: body.answer2,
+        answer3: body.answer3
+
+      },
+    });
+    res.json(obj);
   } catch (error) {
     next(error);
   }

@@ -31,22 +31,49 @@ module.exports.getById = async (req, res, next) => {
 // Crear
 module.exports.create = async (req, res, next) => {
   try {
-    let body = req.body;
-    const obj = await prisma.invoiceDetail.create({
-      data: {
-        invoiceId: body.invoiceId,
-        serviceId: body.serviceId,
-        productId: body.productId,
-        date: body.date,
-        quantity: body.quantity,
-        subtotal: body.subtotal,
+    const body = req.body;
+
+    // Registra el cuerpo de la solicitud para depuración
+    console.log('Cuerpo de la solicitud entrante para crear:', body);
+
+    // Valida los campos requeridos
+    if (!body.invoiceId || !body.date || !body.quantity || !body.subtotal) {
+      return res.status(400).json({ message: 'Faltan campos requeridos' });
+    }
+
+    const data = {
+      invoice: {
+        connect: { id: body.invoiceId },
       },
+      date: new Date(body.date),
+      quantity: body.quantity,
+      subtotal: body.subtotal,
+    };
+
+    if (body.serviceId) {
+      data.service = {
+        connect: { id: body.serviceId },
+      };
+    }
+    
+    if (body.productId) {
+      data.product = {
+        connect: { id: body.productId },
+      };
+    }
+
+    const obj = await prisma.invoiceDetail.create({
+      data,
     });
-    res.json(obj);
+
+    res.status(201).json(obj); // Devuelve estado 201 Created
   } catch (error) {
+    console.error('Error al crear el detalle de la factura:', error); // Registra el error para depuración
     next(error);
   }
 };
+
+
 
 // Actualizar
 module.exports.update = async (req, res, next) => {

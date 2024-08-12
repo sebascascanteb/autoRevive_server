@@ -132,11 +132,18 @@ module.exports.create = async (req, res, next) => {
     let body = req.body;
     const newinvoice = await prisma.invoice.create({
       data: {
-        userId: body.userId,
-        branchId: body.branchId,
+        user: body.userId,
+        branch: body.branchId,
         date: body.date,
-        total: body.total * 0.13,
+        total: parseFloat(body.total)+(parseFloat(body.total) * 0.13),
+        user: {
+          connect: { id: body.userId },
+        },
+        branch: {
+          connect: { id: body.branchId },
+        },
       },
+     
     });
     res.json(newinvoice);
   } catch (error) {

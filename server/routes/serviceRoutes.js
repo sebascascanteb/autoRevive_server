@@ -5,8 +5,8 @@ const router=express.Router();
 const serviceController =require("../controllers/serviceController")
 
 //Rutas
-router.get("/",serviceController.get)
 router.get('/:id', serviceController.getById);
+router.get("/",serviceController.get)
 router.post('/', serviceController.create);
 router.put('/:id', serviceController.update);
 

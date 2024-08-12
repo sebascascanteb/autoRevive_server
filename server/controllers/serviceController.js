@@ -29,11 +29,7 @@ module.exports.getById = async (req, res, next) => {
     const obj = await prisma.service.findFirst({
       where: { id: id },
       include: {
-        serviceType: {
-          select: {
-            name: true,
-          },
-        },
+        serviceType: true
       },
     });
     res.json(obj);

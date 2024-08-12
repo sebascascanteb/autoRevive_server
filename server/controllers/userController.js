@@ -55,6 +55,8 @@ module.exports.login = async (req, res, next) => {
       id: user.id,
       email: user.email,
       role: user.role,
+      branchId: user.branchId,
+
     };
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRE,
@@ -87,6 +89,22 @@ module.exports.getNotBranchAssociate = async (req, res, next) => {
     const listado = await prisma.user.findMany({
       orderBy: { name: 'asc' },
       where: { branchId: null },
+      include: {
+        branch: true,
+      },
+    });
+    res.json(listado);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+module.exports.getClients = async (req, res, next) => {
+  try {
+    const listado = await prisma.user.findMany({
+      orderBy: { name: 'asc' },
+      where:{role: "CLIENT"},
       include: {
         branch: true,
       },

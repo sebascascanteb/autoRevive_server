@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts",
+    "debug": "nodemon --inspect app.js"
   },
   "author": "Sebastian Cascante & Luis Campos",
   "license": "ISC",

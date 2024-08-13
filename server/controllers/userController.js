@@ -7,27 +7,37 @@ const { response } = require('express');
 
 //Register user
 module.exports.register = async (req, res, next) => {
-  const userData = req.body;
-  userData.birthDate = new Date(userData.birthDate);
-  let salt = await bcrypt.genSalt(10);
-  let hashedPassword = await bcrypt.hashSync(userData.password, salt);
-  const user = await prisma.user.create({
-    data: {
-      name: userData.name,
-      phone: userData.phone.toString(),
-      email: userData.email,
-      exactAddress: userData.exactAddress,
-      birthDate: userData.birthDate,
-      password: hashedPassword,
-    },
-  });
-  res.json(user);
-  response.status(200).json({
-    status: true,
-    message: 'User created successfully',
-    data: user,
-  });
+  try {
+    const userData = req.body;
+    userData.birthDate = new Date(userData.birthDate);
+    let salt = await bcrypt.genSalt(10);
+    let hashedPassword = await bcrypt.hashSync(userData.password, salt);
+    let branchIdv = parseInt(userData.branchId);
+
+    const user = await prisma.user.create({
+      data: {
+        name: userData.name,
+        phone: userData.phone.toString(),
+        email: userData.email,
+        exactAddress: userData.exactAddress,
+        birthDate: userData.birthDate,
+        password: hashedPassword,
+        branchId: branchIdv,
+      },
+    });
+
+    // Envía una única respuesta
+    res.status(200).json({
+      status: true,
+      message: 'User created successfully',
+      data: user,
+    });
+  } catch (error) {
+    // Manejo de errores
+    next(error);
+  }
 };
+
 
 //Login user
 
@@ -56,7 +66,6 @@ module.exports.login = async (req, res, next) => {
       email: user.email,
       role: user.role,
       branchId: user.branchId,
-
     };
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRE,
@@ -99,12 +108,11 @@ module.exports.getNotBranchAssociate = async (req, res, next) => {
   }
 };
 
-
 module.exports.getClients = async (req, res, next) => {
   try {
     const listado = await prisma.user.findMany({
       orderBy: { name: 'asc' },
-      where:{role: "CLIENT"},
+      where: { role: 'CLIENT' },
       include: {
         branch: true,
       },

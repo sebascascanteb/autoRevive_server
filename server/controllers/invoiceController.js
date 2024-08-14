@@ -161,10 +161,17 @@ module.exports.update = async (req, res, next) => {
     const invoice = await prisma.invoice.update({
       where: { id: id },
       data: {
-        userId: body.userId,
-        branchId: body.branchId,
+        user: body.userId,
+        branch: body.branchId,
         date: body.date,
-        total: body.total,
+        total: parseFloat(body.total),
+        user: {
+          connect: { id: body.userId },
+        },
+        branch: {
+          connect: { id: body.branchId },
+        },
+        canceled: body.canceled
       },
     });
     res.json(invoice);

@@ -56,10 +56,10 @@ module.exports.getById = async (req, res, next) => {
 module.exports.getByIdClient = async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
-
+    console.log(userId);
     // Obtener las facturas de la branch asociada al manager
     const invoices = await prisma.invoice.findMany({
-      where: { userId },
+      where: { userId, canceled: 'NO' },
       orderBy: { date: 'desc' },
       include: {
         branch: true,
@@ -135,6 +135,8 @@ module.exports.create = async (req, res, next) => {
         user: body.userId,
         branch: body.branchId,
         date: body.date,
+        canceled: body.canceled,
+
         total: parseFloat(body.total),
         user: {
           connect: { id: body.userId },
@@ -143,8 +145,8 @@ module.exports.create = async (req, res, next) => {
           connect: { id: body.branchId },
         },
       },
-     
     });
+
     res.json(newinvoice);
   } catch (error) {
     next(error);

@@ -10,5 +10,6 @@ router.put('/:id', invoiceController.update);
 
 router.get('/listByManager/:id', invoiceController.listInvoicesByManager);
 router.get('/getByIdClient/:id', invoiceController.getByIdClient);
+router.get('/getByIdClientCanceled/:id', invoiceController.getByIdClientCanceled);
 
 module.exports = router;

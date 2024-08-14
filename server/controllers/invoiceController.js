@@ -80,6 +80,33 @@ module.exports.getByIdClient = async (req, res, next) => {
   }
 };
 
+module.exports.getByIdClientCanceled = async (req, res, next) => {
+  try {
+    const userId = parseInt(req.params.id);
+    console.log(userId);
+    // Obtener las facturas de la branch asociada al manager
+    const invoices = await prisma.invoice.findMany({
+      where: { userId },
+      orderBy: { date: 'desc' },
+      include: {
+        branch: true,
+        user: true,
+        invoiceDetails: {
+          include: {
+            product: true,
+
+            service: true,
+          },
+        },
+      },
+    });
+
+    res.json(invoices);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Obtener por encargado asociado a la branch
 //localhost:3000/invocie/listInvoicesByManager/2
 module.exports.listInvoicesByManager = async (req, res, next) => {

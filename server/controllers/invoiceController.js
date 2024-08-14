@@ -135,7 +135,7 @@ module.exports.create = async (req, res, next) => {
         user: body.userId,
         branch: body.branchId,
         date: body.date,
-        total: parseFloat(body.total)+(parseFloat(body.total) * 0.13),
+        total: parseFloat(body.total),
         user: {
           connect: { id: body.userId },
         },

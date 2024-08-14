@@ -6,6 +6,8 @@ const invoiceController = require('../controllers/invoiceController');
 router.get('/', invoiceController.get);
 router.get('/:id', invoiceController.getById); 
 router.post('/', invoiceController.create);
+router.put('/:id', invoiceController.update);
+
 router.get('/listByManager/:id', invoiceController.listInvoicesByManager);
 router.get('/getByIdClient/:id', invoiceController.getByIdClient);
 

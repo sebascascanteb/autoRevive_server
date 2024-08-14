@@ -136,6 +136,7 @@ module.exports.create = async (req, res, next) => {
         branch: body.branchId,
         date: body.date,
         canceled: body.canceled,
+
         total: parseFloat(body.total),
         user: {
           connect: { id: body.userId },

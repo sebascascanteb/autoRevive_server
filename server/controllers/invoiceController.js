@@ -166,7 +166,7 @@ module.exports.create = async (req, res, next) => {
 
         total: parseFloat(body.total),
         user: {
-          connect: { id: body.userId },
+          connect: { id: parseInt( body.userId) },
         },
         branch: {
           connect: { id: body.branchId },

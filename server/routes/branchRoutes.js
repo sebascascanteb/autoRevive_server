@@ -6,6 +6,8 @@ const branchController = require('../controllers/branchController');
 // router.get('/',auth.grantRole(["ADMIN"]),branchController.get)
 
 router.get('/', branchController.get);
+router.get('/withManager', branchController.getWithManagers);
+
 router.get('/:id', branchController.getById);
 router.post('/', branchController.create);
 router.get('/getByIdManager/:id', branchController.getByIdManager);

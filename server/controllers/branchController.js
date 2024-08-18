@@ -17,6 +17,26 @@ module.exports.get = async (req, res, next) => {
   }
 };
 
+
+module.exports.getWithManagers = async (req, res, next) => {
+  try {
+    const listado = await prisma.branch.findMany({
+      orderBy: { name: 'asc' },
+      include: {
+        users: {
+          where: {
+            role: "MANAGER"
+          }
+        }
+      }
+    });
+    res.json(listado);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 // Obtener por Id
 //localhost:3000/branch/3
 module.exports.getById = async (req, res, next) => {

@@ -28,6 +28,10 @@
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
+    "@swimlane/ngx-charts": "^20.5.0",
+    "chart.js": "^4.4.3",
+    "echarts": "^5.5.1",
+    "ngx-echarts": "^18.0.0",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.14"
   },

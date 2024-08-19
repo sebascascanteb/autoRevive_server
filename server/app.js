@@ -20,6 +20,7 @@ const scheduleRouter = require('./routes/scheduleRoutes');
 const invoiceDetailRouter = require('./routes/invoiceDetailRoutes');
 const statusRouter = require('./routes/statusRoutes');
 const userRouter = require('./routes/userRoutes');
+const reportRouter = require('./routes/reportRoutes');
 
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
@@ -48,6 +49,7 @@ app.use('/schedule/', scheduleRouter);
 app.use('/invoiceDetail/', invoiceDetailRouter);
 app.use('/status/', statusRouter);
 app.use('/user/', userRouter);
+app.use('/report/', reportRouter);
 
 // Servidor
 app.listen(port, () => {

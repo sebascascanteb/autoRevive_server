@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-
+const pdfService = require('./pdfService.js');
 class EmailService {
   constructor() {
     this.transporter = nodemailer.createTransport({
@@ -90,6 +90,8 @@ class EmailService {
       console.error('Error fetching reservations or sending emails:', error);
     }
   }
+
+  
 }
 
 module.exports = new EmailService();

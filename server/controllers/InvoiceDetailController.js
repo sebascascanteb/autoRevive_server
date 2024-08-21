@@ -1,6 +1,11 @@
 const { PrismaClient } = require('@prisma/client');
 const { connect } = require('http2');
 const prisma = new PrismaClient();
+const emailService = require('../services/emailService.js');
+const pdfService = require('../services/pdfService.js'); 
+
+
+
 
 // Obtener listado
 module.exports.get = async (req, res, next) => {
@@ -28,13 +33,11 @@ module.exports.getById = async (req, res, next) => {
   }
 };
 
-// Crear
+
+
 module.exports.create = async (req, res, next) => {
   try {
     const body = req.body;
-
-    // Registra el cuerpo de la solicitud para depuración
-    console.log('Cuerpo de la solicitud entrante para crear:', body);
 
     // Valida los campos requeridos
     if (!body.invoiceId || !body.date || !body.quantity || !body.subtotal) {
@@ -62,17 +65,58 @@ module.exports.create = async (req, res, next) => {
       };
     }
 
-    const obj = await prisma.invoiceDetail.create({
-      data,
+    const invoiceDetail = await prisma.invoiceDetail.create({ data });
+
+    // Obtener la factura completa con detalles
+    const invoice = await prisma.invoice.findUnique({
+      where: { id: body.invoiceId },
+      include: {
+        user: true,
+        branch: true,
+        invoiceDetails: {
+          include: {
+            service: true,
+            product: true
+          }
+        }
+      }
     });
 
-    res.status(201).json(obj); // Devuelve estado 201 Created
+    if (!invoice) {
+      return res.status(404).json({ message: 'Factura no encontrada' });
+    }
+
+    // Generar PDF
+    const pdfPath = await pdfService.createInvoicePDF(invoice, invoice.user, invoice.invoiceDetails);
+
+    // Enviar correo con el PDF adjunto
+    const message = {
+      from: 'AutoRevive <sebascascanteb03@gmail.com>',
+      to: invoice.user.email,
+      subject: 'Your Invoice from AutoRevive',
+      html: `
+        <p>Hello ${invoice.user.name},</p>
+        <p>Thank you for your business. Attached is your invoice #${invoice.id}.</p>
+        <p>Total Amount: $${invoice.total.toFixed(2)}</p>
+        <p>Best regards,<br>AutoRevive Team</p>
+      `,
+      attachments: [
+        {
+          filename: `invoice-${invoice.id}.pdf`,
+          path: pdfPath,
+          contentType: 'application/pdf'
+        }
+      ]
+    };
+
+    await emailService.sendEmail(message);
+
+    res.status(201).json(invoiceDetail);
   } catch (error) {
-    console.error('Error al crear el detalle de la factura:', error); // Registra el error para depuración
+    console.error('Error al crear el detalle de la factura y enviar el correo:', error);
     next(error);
   }
 };
-
 
 
 // Actualizar

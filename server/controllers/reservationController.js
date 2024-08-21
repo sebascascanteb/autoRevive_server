@@ -59,6 +59,44 @@ module.exports.getByIdClient = async (req, res, next) => {
   }
 };
 
+module.exports.getByIdClientAndBranch = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    // Buscar el cliente con su branch asociada
+    const client = await prisma.user.findUnique({
+      where: { id: id },
+      include: {
+        branch: true,  // Incluye la relación branch
+      }
+    });
+
+    if (!client || !client.branch) {
+      return res.status(404).json({ message: 'Client or branch not found' });
+    }
+
+    // Obtener las reservas del branch asociado al cliente
+    const reservations = await prisma.reservation.findMany({
+      where: {
+        clientId: id,
+        branchId: client.branch.id
+      },
+      orderBy: { date: "desc" },
+      include: {
+        client: true, 
+        service: true, 
+        branch: true,  
+        status: true  
+      }
+    });
+
+    res.json(reservations);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 module.exports.getByBranch = async (req, res, next) => {
   try {
     const branchId = parseInt(req.params.id);
@@ -144,6 +182,39 @@ module.exports.create = async (req, res, next) => {
     next(error);
   }
 };
+
+// cancel reservation
+module.exports.cancel = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const obj = await prisma.reservation.update({
+      where: { id },
+      data: {
+        statusId: 5
+      },
+    });
+    res.json(obj);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Confirm reservation
+module.exports.confirm = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const obj = await prisma.reservation.update({
+      where: { id },
+      data: {
+        statusId: 2
+      },
+    });
+    res.json(obj);
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 
 

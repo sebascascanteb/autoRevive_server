@@ -1,3 +1,5 @@
-node_modules
 # Keep environment variables out of version control
-.env
+# Node modules
+# Email.pass fwcr pzww qizj yqin
+
+/node_modules

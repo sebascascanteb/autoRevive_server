@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "ts-node prisma/seed.ts" 
+    "seed": "ts-node prisma/seed.ts",
+    "debug": "nodemon --inspect app.js"
   },
   "author": "Sebastian Cascante & Luis Campos",
   "license": "ISC",
@@ -26,7 +27,15 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@prisma/client": "^5.14.0"
+    "@prisma/client": "^5.14.0",
+    "@swimlane/ngx-charts": "^20.5.0",
+    "chart.js": "^4.4.3",
+    "echarts": "^5.5.1",
+    "ngx-echarts": "^18.0.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.14",
+    "pdfkit": "^0.15.0",
+    "puppeteer": "^23.1.0"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
